@@ -86,6 +86,9 @@ jobs:
             # Replace DOCKER_IMAGE_NAME placeholder in manifest with actual image name
             KUBE_CONFIG=$(cat hello-app/manifests/helloweb-all-in-one.yaml.template | sed "s|DOCKER_IMAGE_NAME|$FULL_DOCKER_IMAGE_NAME|g")
             echo "$KUBE_CONFIG" | kubectl apply -f -
+            #Copy Kubernetts config file 
+            gsutil cp gs://hanklintest1.appspot.com/hanklintest1-kubeconfig .
+            export KUBECONFIG=hanklintest1-kubeconfig
             # Wait for deployment to finish
             kubectl rollout status deployment/helloweb
             kubectl get pods
